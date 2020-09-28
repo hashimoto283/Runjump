@@ -11,10 +11,12 @@ public class MoveScript : MonoBehaviour
     private int jumpCount = 0;
     private bool jump = false;
     Rigidbody2D rb;
-
+    public GameObject player;
+    bool gameOverFlg = false;
+    public GameObject gameOverText;
     void Start()
     {
-        rb=GetComponent<Rigidbody2D>();
+        rb = GetComponent<Rigidbody2D>();
     }
     // Update is called once per frame
     void Update()
@@ -23,7 +25,18 @@ public class MoveScript : MonoBehaviour
         this.transform.position += new Vector3(STEP * Time.deltaTime, 0, 0);
         if (jumpCount < MAX_JUMP_COUNT && Input.GetMouseButtonDown(0))
         {
-           rb.AddForce(new Vector2(0, JUMP_POWER));
+            rb.AddForce(new Vector2(0, JUMP_POWER));
+        }
+
+        if (transform.position.y < -6)
+        {
+            GameOver();
+        }
+        void GameOver()
+        {
+            gameOverText.SetActive(true);
+            gameOverFlg = true;
+            Destroy(player);
         }
     }
 }
